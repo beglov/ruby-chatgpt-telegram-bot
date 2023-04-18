@@ -2,7 +2,7 @@ require 'dotenv/load'
 require 'telegram/bot'
 require_relative 'client'
 
-token = ENV.fetch('TELEGRAM_BOT_API_TOKEN')
+token = ENV.fetch('TELEGRAM_API_KEY')
 
 def client
   @client ||= Client.new
