@@ -1,0 +1,6 @@
+.dockerignore
+.env
+.env.sample
+.git
+.gitignore
+.idea
