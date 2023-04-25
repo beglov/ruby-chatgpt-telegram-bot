@@ -1,5 +1,6 @@
 require 'dotenv/load'
 require 'telegram/bot'
+require 'logger'
 require_relative 'client'
 
 token = ENV.fetch('TELEGRAM_API_KEY')
@@ -8,12 +9,19 @@ def client
   @client ||= Client.new
 end
 
+def logger
+  @logger ||= Logger.new($stdout)
+end
+
 def ask_chatgpt(messages)
   response = client.chat(messages)
 
-  return response.body[:error][:message] unless response.success?
+  return "Service Temporarily Unavailable" unless response.success?
 
   response.body[:choices][0][:message][:content]
+rescue StandardError => e
+  logger.error e
+  "Service Temporarily Unavailable"
 end
 
 def handle_message(bot, message)
