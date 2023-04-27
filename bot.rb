@@ -15,7 +15,8 @@ def logger
 end
 
 def ask_chatgpt(messages, user_message)
-  return "Access denied" if !$telegram_user_ids.empty? && !$telegram_user_ids.include?(user_message.from&.id)
+  return "Access denied" if !$telegram_user_ids.empty? && !$telegram_user_ids.include?(user_message.from&.id.to_s)
+  return "Ask me anything you want" if user_message.text == '/start'
 
   response = client.chat(messages)
 
