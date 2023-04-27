@@ -24,3 +24,15 @@ jobs:
       - name: Push Docker image to registry
         run: |
           make push
+
+      - name: Restart service
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.DEPLOY_SERVER }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.KEY }}
+          script:
+            docker pull gambit10/ruby-chatgpt-telegram-bot &&
+            docker stop ruby-chatgpt-telegram-bot &&
+            docker rm ruby-chatgpt-telegram-bot &&
+            docker run --name=ruby-chatgpt-telegram-bot --restart=always -d --env-file .env gambit10/ruby-chatgpt-telegram-bot
