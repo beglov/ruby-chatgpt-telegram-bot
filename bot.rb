@@ -3,7 +3,7 @@ require 'telegram/bot'
 require 'logger'
 require_relative 'client'
 
-token = ENV.fetch('TELEGRAM_API_KEY')
+token = ENV.fetch('TELEGRAM_BOT_TOKEN')
 $telegram_user_ids = ENV.fetch('TELEGRAM_USER_IDS', '').split(',')
 
 def client
