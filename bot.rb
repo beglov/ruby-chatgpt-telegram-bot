@@ -4,6 +4,7 @@ require 'logger'
 require_relative 'client'
 
 token = ENV.fetch('TELEGRAM_API_KEY')
+$telegram_user_ids = ENV.fetch('TELEGRAM_USER_IDS', '').split(',')
 
 def client
   @client ||= Client.new
@@ -13,7 +14,9 @@ def logger
   @logger ||= Logger.new($stdout)
 end
 
-def ask_chatgpt(messages)
+def ask_chatgpt(messages, user_message)
+  return "Access denied" if !$telegram_user_ids.empty? && !$telegram_user_ids.include?(user_message.from&.id)
+
   response = client.chat(messages)
 
   return "Service Temporarily Unavailable" unless response.success?
@@ -31,7 +34,7 @@ def handle_message(bot, message)
   messages = [
     { role: "user", content: input_text }
   ]
-  answer = ask_chatgpt(messages)
+  answer = ask_chatgpt(messages, message)
 
   # Send the response back to the user
   bot.api.send_message(
