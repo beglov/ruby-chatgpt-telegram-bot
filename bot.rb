@@ -15,7 +15,6 @@ def logger
 end
 
 def ask_chatgpt(messages, user_message)
-  return "Access denied" if !$telegram_user_ids.empty? && !$telegram_user_ids.include?(user_message.from&.id.to_s)
   return "Ask me anything you want" if user_message.text == '/start'
 
   response = client.chat(messages)
@@ -29,6 +28,8 @@ rescue StandardError => e
 end
 
 def handle_message(bot, message)
+  return "Access denied" if !$telegram_user_ids.empty? && !$telegram_user_ids.include?(message.from&.id.to_s)
+
   # Get the user's input text
   input_text = message.text
 
