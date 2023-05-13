@@ -35,4 +35,5 @@ jobs:
             docker pull gambit10/ruby-chatgpt-telegram-bot &&
             docker stop ruby-chatgpt-telegram-bot &&
             docker rm ruby-chatgpt-telegram-bot &&
-            docker run --name=ruby-chatgpt-telegram-bot --restart=always -d --env-file .env gambit10/ruby-chatgpt-telegram-bot
+            docker run --name=ruby-chatgpt-telegram-bot --restart=always -d --env-file .env gambit10/ruby-chatgpt-telegram-bot &&
+            docker system prune -f
