@@ -28,6 +28,7 @@ rescue StandardError => e
 end
 
 def handle_message(bot, message)
+  # return if message != Telegram::Bot::Types::Message
   return "Access denied" if !$telegram_user_ids.empty? && !$telegram_user_ids.include?(message.from&.id.to_s)
 
   # Get the user's input text
